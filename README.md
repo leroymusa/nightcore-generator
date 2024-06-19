@@ -115,6 +115,10 @@ Run the script with one of the following options:
     ```bash
     python nightcore.py -f song.mp3
     ```
+### Example Usage on Terminal
+<div style="text-align: center;">
+  <img src="images/terminal.png" alt="Testing Setup" width="100%" style="display: inline-block;">
+</div>
 
 ## Note
 
