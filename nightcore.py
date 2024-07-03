@@ -1,6 +1,9 @@
 #Author: Leroy Musa
 #!/usr/bin/env python3
 
+# Author: Leroy Musa
+#!/usr/bin/env python3
+
 import os
 import sys
 import shutil
@@ -8,11 +11,16 @@ import argparse
 import logging
 from pydub import AudioSegment
 import yt_dlp as youtube_dl
+import signal
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 pid = os.getpid()
 tmp_dir = f"tmp_{pid}"
+
+def cleanup_temp_dir():
+    if os.path.isdir(tmp_dir):
+        shutil.rmtree(tmp_dir)
 
 def speedup_song(input_path, output_path):
     logging.info("Speeding up the song.")
@@ -25,6 +33,7 @@ def speedup_song(input_path, output_path):
         nightcore_sound.export(output_path, format="mp3", bitrate="192k")
     except Exception as e:
         logging.error(f"Error speeding up the song: {e}")
+        cleanup_temp_dir()
         sys.exit(1)
 
 def download_audio_from_youtube(search_terms, output_path):
@@ -43,9 +52,17 @@ def download_audio_from_youtube(search_terms, output_path):
             ydl.download([search_terms])
     except Exception as e:
         logging.error(f"Error downloading from YouTube: {e}")
+        cleanup_temp_dir()
         sys.exit(1)
 
+def signal_handler(sig, frame):
+    logging.info("Interrupt received, cleaning up...")
+    cleanup_temp_dir()
+    sys.exit(0)
+
 def main(args):
+    signal.signal(signal.SIGINT, signal_handler)
+    
     if os.path.isdir(tmp_dir):
         shutil.rmtree(tmp_dir)
     os.mkdir(tmp_dir)
@@ -62,7 +79,7 @@ def main(args):
 
     output = args.output if args.output else f"nightcore_{pid}.mp3"
     speedup_song(audio_path, output)
-    shutil.rmtree(tmp_dir)
+    cleanup_temp_dir()
     logging.info("Nightcore audio successfully generated!")
 
 if __name__ == "__main__":
