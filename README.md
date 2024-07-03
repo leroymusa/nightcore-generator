@@ -25,26 +25,16 @@ A Python tool to automatically generate nightcore audio from an input audio file
     cd nightcore-generator
     ```
 
-2. Install Python 3.8 (if not already installed):
+2. Ensure `ffmpeg` is installed on your system:
     ```bash
     sudo apt update
-    sudo apt install python3.8 python3.8-venv python3.8-dev
-    ```
-
-3. Create and activate a virtual environment:
-    ```bash
-    python3.8 -m venv venv
-    source venv/bin/activate
-    ```
-
-4. Install the required Python packages:
-    ```bash
-    pip install pydub yt-dlp
-    ```
-
-5. Ensure `ffmpeg` is installed on your system:
-    ```bash
     sudo apt install ffmpeg
+    ```
+
+3. Install the required Python packages globally:
+    ```bash
+    sudo apt install python3-pip
+    pip3 install pydub yt-dlp
     ```
 
 ### Other Operating Systems
@@ -99,6 +89,11 @@ Run the script with one of the following options:
     python nightcore.py -f <Path to Audio File> -o <Output File Name>
     ```
 
+- Optionally specify the output directory:
+    ```bash
+    python nightcore.py -f <Path to Audio File> -o <Output File Name> -d <Output Directory>
+    ```
+
 ## Examples
 
 - Create a nightcore version from a YouTube video:
@@ -115,6 +110,7 @@ Run the script with one of the following options:
     ```bash
     python nightcore.py -f song.mp3
     ```
+
 ### Example Usage on Terminal
 <div style="text-align: center;">
   <img src="images/terminal.png" alt="Testing Setup" width="100%" style="display: inline-block;">
@@ -122,6 +118,6 @@ Run the script with one of the following options:
 
 ## Note
 
-Ensure that the virtual environment is activated each time you work with the project:
+Ensure that the virtual environment is activated each time you work with the project on non-Linux systems:
 ```bash
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`

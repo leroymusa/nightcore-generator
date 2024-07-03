@@ -1,6 +1,3 @@
-#Author: Leroy Musa
-#!/usr/bin/env python3
-
 # Author: Leroy Musa
 #!/usr/bin/env python3
 
@@ -77,10 +74,13 @@ def main(args):
     elif args.file:
         audio_path = args.file
 
-    output = args.output if args.output else f"nightcore_{pid}.mp3"
-    speedup_song(audio_path, output)
+    output_dir = args.output_dir if args.output_dir else '.'
+    output_filename = args.output if args.output else f"nightcore_{pid}.mp3"
+    output_path = os.path.join(output_dir, output_filename)
+
+    speedup_song(audio_path, output_path)
     cleanup_temp_dir()
-    logging.info("Nightcore audio successfully generated!")
+    logging.info(f"Nightcore audio successfully generated at {output_path}!")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A tool to automatically generate nightcore audio from an audio file.")
@@ -89,4 +89,5 @@ if __name__ == "__main__":
     group.add_argument("-s", "--search", help="Search for a specific song on YouTube to Nightcore-ify (same as --ytdl ytsearch:[search])")
     group.add_argument("-f", "--file", help="File path to the song to Nightcore-ify")
     parser.add_argument("-o", "--output", help="Name of the output file")
+    parser.add_argument("-d", "--output_dir", help="Directory to save the output file")
     main(parser.parse_args())
